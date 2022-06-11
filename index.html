@@ -81,10 +81,11 @@
       const onClick = (e) => {
         const x = parseInt(e.target.getAttribute("data-x"));
         const y = parseInt(e.target.getAttribute("data-y"));
-        console.log("clicked on", [x, y]);
-        console.log("current value", next[next.length - 1]);
+        // console.log("clicked on", [x, y]);
+        // console.log("current value", next[next.length - 1]);
         const value = parseInt(e.target.getAttribute("data-value"));
-        if (!value) {
+        console.log("value is", value);
+        if (value === 0) {
           state[y][x] = next[next.length - 1];
           const nabes = neighbors(x, y);
           if (nabes.length > 2) {
@@ -96,9 +97,18 @@
             state[y][x] = sum;
           }
           // todo check nabes again
+          const nextNabes = neighbors(x, y);
+          if (nextNabes.length > 2) {
+            let sum = 0;
+            nextNabes.forEach((nabe) => {
+              sum += state[nabe[1]][nabe[0]];
+              state[nabe[1]][nabe[0]] = 0;
+            });
+            state[y][x] = sum;
+          }
           next.pop();
           next.unshift(rand());
-          console.log("contiguous neighbors:", nabes.length);
+          // console.log("contiguous neighbors:", nabes.length);
           render();
         }
       };
