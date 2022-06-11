@@ -46,7 +46,10 @@
       Click on an empty square to place the square in yellow. Connecting 3 or
       more squares will upgrade the square to the next level.
     </p>
-    <div class="app"></div>
+    <div>
+      <div>Score: <strong class="score">0</strong></div>
+      <div class="app"></div>
+    </div>
     <script>
       const state = [
         [1, 1, 0, 4, 0],
@@ -55,6 +58,14 @@
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
       ];
+      const score = () => {
+        console.log("gettin score");
+        return state.reduce((acc, row) => {
+          const sum = row.reduce((acc2, el) => acc2 + el, 0);
+          console.log(sum);
+          return acc + sum;
+        }, 0);
+      };
       const rand = () => Math.floor(Math.random() * 2) + 1;
       const app = document.querySelector(".app");
       const times3 = (cb) => [0, 0, 0].map(cb);
@@ -78,15 +89,9 @@
         }
         return stack;
       };
-      const onClick = (e) => {
-        const x = parseInt(e.target.getAttribute("data-x"));
-        const y = parseInt(e.target.getAttribute("data-y"));
-        // console.log("clicked on", [x, y]);
-        // console.log("current value", next[next.length - 1]);
-        const value = parseInt(e.target.getAttribute("data-value"));
-        console.log("value is", value);
-        if (value === 0) {
-          state[y][x] = next[next.length - 1];
+      const checkNeighbors = (x, y) => {
+        console.log("checking neighbors");
+        setTimeout(() => {
           const nabes = neighbors(x, y);
           if (nabes.length > 2) {
             let sum = 0;
@@ -95,27 +100,27 @@
               state[nabe[1]][nabe[0]] = 0;
             });
             state[y][x] = sum;
+            checkNeighbors(x, y);
           }
-          // todo check nabes again
-          const nextNabes = neighbors(x, y);
-          if (nextNabes.length > 2) {
-            let sum = 0;
-            nextNabes.forEach((nabe) => {
-              sum += state[nabe[1]][nabe[0]];
-              state[nabe[1]][nabe[0]] = 0;
-            });
-            state[y][x] = sum;
-          }
-          next.pop();
-          next.unshift(rand());
-          // console.log("contiguous neighbors:", nabes.length);
           render();
-        }
+        }, 200);
+      };
+      const onClick = (e) => {
+        const x = parseInt(e.target.getAttribute("data-x"));
+        const y = parseInt(e.target.getAttribute("data-y"));
+        const value = parseInt(e.target.getAttribute("data-value"));
+        if (value !== 0) return;
+        state[y][x] = next[next.length - 1];
+        next.pop();
+        next.unshift(rand());
+        render();
+        checkNeighbors(x, y);
       };
       let next = times3(rand);
       times3((n) => state[rand()][rand()]);
       app.addEventListener("click", onClick);
       const render = () => {
+        document.querySelector(".score").innerHTML = score();
         app.innerHTML = state
           .map(
             (row, rowIndex) => `<div class='row'>
