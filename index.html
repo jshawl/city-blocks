@@ -43,15 +43,35 @@
     <div class="app"></div>
     <script>
       const state = [
-        [0, 1, 0, 3, 0],
+        [1, 1, 0, 3, 0],
         [0, 0, 1, 0, 0],
         [0, 2, 0, 0, 0],
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
       ];
-      const rand = () => Math.floor(Math.random() * 4) + 1;
+      const rand = () => Math.floor(Math.random() * 3) + 1;
       const app = document.querySelector(".app");
       const times3 = (cb) => [0, 0, 0].map(cb);
+      const neighbors = (x, y, stack = []) => {
+        stack = [...stack, [x, y]];
+        const neighbor = {
+          top: [x, y - 1],
+          right: [x + 1, y],
+          bottom: [x, y + 1],
+          left: [x - 1, y],
+        };
+        for (dir in neighbor) {
+          const next = neighbor[dir];
+          const valueMatches = state[y][x] === state[next[1]]?.[next[0]];
+          const unique = !stack.some(
+            (e) => e[0] === next[0] && e[1] === next[1]
+          );
+          if (valueMatches && unique) {
+            stack = neighbors(next[0], next[1], stack);
+          }
+        }
+        return stack;
+      };
       let next = times3(rand);
       times3((n) => state[rand()][rand()]);
       app.addEventListener("click", (e) => {
@@ -62,6 +82,8 @@
           state[y][x] = next[next.length - 1];
           next.pop();
           next.unshift(rand());
+          const nabes = neighbors(x, y);
+          console.log("contiguous neighbors:", nabes.length);
           render();
         }
       });
@@ -72,7 +94,7 @@
         ${row
           .map(
             (col, colIndex) =>
-              `<div 
+              `<div
             class='col'
             data-value='${col}'
             data-x='${colIndex}'
@@ -81,7 +103,7 @@
               ${col === 0 ? "" : col}
             </div>`
           )
-          .join("")} 
+          .join("")}
       </div>`
           )
           .join("");
