@@ -1,0 +1,42 @@
+body {
+  font-family: sans-serif;
+  color: #666;
+}
+.app {
+  max-width: 16rem;
+}
+.row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+.col {
+  border: 1px solid #ebebeb;
+  width: 3rem;
+  height: 3rem;
+  font-size: 3rem;
+  line-height: 3.5rem;
+  text-align: center;
+}
+.col[data-value="0"]:hover {
+  background: #eee;
+  cursor: pointer;
+}
+.next {
+  margin-left: 5rem;
+  margin-top: 1em;
+  position: relative;
+}
+.next :last-child {
+  background: yellow;
+}
+.next:after {
+  content: "Next";
+  text-transform: uppercase;
+  font-weight: bold;
+  position: absolute;
+  top: -0.25rem;
+  right: -0.75rem;
+  font-size: 0.6rem;
+}
