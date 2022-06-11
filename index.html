@@ -72,21 +72,30 @@
         }
         return stack;
       };
-      let next = times3(rand);
-      times3((n) => state[rand()][rand()]);
-      app.addEventListener("click", (e) => {
+      const onClick = (e) => {
         const x = parseInt(e.target.getAttribute("data-x"));
         const y = parseInt(e.target.getAttribute("data-y"));
+        console.log("clicked on", [x, y]);
+        console.log("current value", next[next.length - 1]);
         const value = parseInt(e.target.getAttribute("data-value"));
         if (!value) {
           state[y][x] = next[next.length - 1];
+          const nabes = neighbors(x, y);
+          if (nabes.length > 2) {
+            nabes.forEach((nabe) => {
+              state[nabe[1]][nabe[0]] = 0;
+            });
+            state[y][x] = next[next.length - 1] + 1;
+          }
           next.pop();
           next.unshift(rand());
-          const nabes = neighbors(x, y);
           console.log("contiguous neighbors:", nabes.length);
           render();
         }
-      });
+      };
+      let next = times3(rand);
+      times3((n) => state[rand()][rand()]);
+      app.addEventListener("click", onClick);
       const render = () => {
         app.innerHTML = state
           .map(
