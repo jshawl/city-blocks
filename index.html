@@ -42,8 +42,10 @@
   <body>
     <h1>connect3</h1>
     <p>How to play:</p>
-    <p>Click on an empty square to place the square in yellow. 
-      Connecting 3 or more squares will upgrade the square to the next level.</p>
+    <p>
+      Click on an empty square to place the square in yellow. Connecting 3 or
+      more squares will upgrade the square to the next level.
+    </p>
     <div class="app"></div>
     <script>
       const state = [
@@ -86,10 +88,12 @@
           state[y][x] = next[next.length - 1];
           const nabes = neighbors(x, y);
           if (nabes.length > 2) {
+            let sum = 0;
             nabes.forEach((nabe) => {
+              sum += state[nabe[1]][nabe[0]];
               state[nabe[1]][nabe[0]] = 0;
             });
-            state[y][x] = next[next.length - 1] * 2;
+            state[y][x] = sum;
           }
           // todo check nabes again
           next.pop();
