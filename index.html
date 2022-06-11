@@ -40,16 +40,20 @@
     </style>
   </head>
   <body>
+    <h1>connect3</h1>
+    <p>How to play:</p>
+    <p>Click on an empty square to place the square in yellow. 
+      Connecting 3 or more squares will upgrade the square to the next level.</p>
     <div class="app"></div>
     <script>
       const state = [
-        [1, 1, 0, 3, 0],
+        [1, 1, 0, 4, 0],
         [0, 0, 1, 0, 0],
         [0, 2, 0, 0, 0],
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
       ];
-      const rand = () => Math.floor(Math.random() * 3) + 1;
+      const rand = () => Math.floor(Math.random() * 2) + 1;
       const app = document.querySelector(".app");
       const times3 = (cb) => [0, 0, 0].map(cb);
       const neighbors = (x, y, stack = []) => {
@@ -85,8 +89,9 @@
             nabes.forEach((nabe) => {
               state[nabe[1]][nabe[0]] = 0;
             });
-            state[y][x] = next[next.length - 1] + 1;
+            state[y][x] = next[next.length - 1] * 2;
           }
+          // todo check nabes again
           next.pop();
           next.unshift(rand());
           console.log("contiguous neighbors:", nabes.length);
