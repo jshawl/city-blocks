@@ -50,8 +50,10 @@
         [0, 0, 0, 0, 0],
       ];
       const rand = () => Math.floor(Math.random() * 4) + 1;
-      let next = [0, 0, 0].map(rand);
       const app = document.querySelector(".app");
+      const times3 = (cb) => [0, 0, 0].map(cb);
+      let next = times3(rand);
+      times3((n) => state[rand()][rand()]);
       app.addEventListener("click", (e) => {
         const x = parseInt(e.target.getAttribute("data-x"));
         const y = parseInt(e.target.getAttribute("data-y"));
