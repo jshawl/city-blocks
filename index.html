@@ -1,49 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    .row {
-      display: flex;
-      align-items: center;
-    }
-    .col {
-      border: 1px solid #ebebeb;
-      width:3rem;
-      height: 3rem;
-      font-size: 3rem;
-      line-height: 3rem;
-      text-align: center;;
-    }
-  </style>
-</head>
-<body>
-  <div class="app"></div>
-  <script>
-    const state = [
-      [0,1,0,3,0],
-      [0,0,1,0,0],
-      [0,2,0,0,0],
-      [0,0,0,0,0],
-      [0,0,0,0,0],
-    ]
-    const rand = () => Math.floor(Math.random()*4) + 1
-    const next = [rand(), rand(), rand()]
-
-    const render = () => {
-      const app = document.querySelector(".app")
-      app.innerHTML = state.map(row => `<div class='row'>
-        ${row.map(col => 
-          `<div class='col'>${col === 0 ? '' : col}</div>`
-        ).join('')} 
-      </div>`).join('')
-      app.innerHTML += `<div class='row'>${next.map(n => `<div class='col'>${n}</div>`)}</div>`
-    }
-
-    render()
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        color: #666;
+      }
+      .app {
+        max-width: 16rem;
+      }
+      .row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        flex-direction: row;
+      }
+      .col {
+        border: 1px solid #ebebeb;
+        width: 3rem;
+        height: 3rem;
+        font-size: 3rem;
+        line-height: 3.5rem;
+        text-align: center;
+      }
+      .col[data-value="0"]:hover {
+        background: #eee;
+        cursor: pointer;
+      }
+      .next {
+        margin-left: 5rem;
+      }
+      .next :last-child {
+        background: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app"></div>
+    <script>
+      const state = [
+        [0, 1, 0, 3, 0],
+        [0, 0, 1, 0, 0],
+        [0, 2, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+      ];
+      const rand = () => Math.floor(Math.random() * 4) + 1;
+      let next = [0, 0, 0].map(rand);
+      const app = document.querySelector(".app");
+      app.addEventListener("click", (e) => {
+        const x = parseInt(e.target.getAttribute("data-x"));
+        const y = parseInt(e.target.getAttribute("data-y"));
+        const value = parseInt(e.target.getAttribute("data-value"));
+        if (!value) {
+          state[y][x] = next[next.length - 1];
+          next.pop();
+          next.unshift(rand());
+          render();
+        }
+      });
+      const render = () => {
+        app.innerHTML = state
+          .map(
+            (row, rowIndex) => `<div class='row'>
+        ${row
+          .map(
+            (col, colIndex) =>
+              `<div 
+            class='col'
+            data-value='${col}'
+            data-x='${colIndex}'
+            data-y='${rowIndex}'
+          >
+              ${col === 0 ? "" : col}
+            </div>`
+          )
+          .join("")} 
+      </div>`
+          )
+          .join("");
+        app.innerHTML += `<div class='row next'>${next
+          .map((n) => `<div class='col'>${n}</div>`)
+          .join("")}</div>`;
+      };
+      render();
+    </script>
+  </body>
 </html>
