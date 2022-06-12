@@ -1,14 +1,5 @@
-import {
-  render,
-  next,
-  state,
-  rand,
-  times3,
-  checkNeighbors,
-  app,
-} from "./functions.js";
+import { render, next, state, rand, checkNeighbors, app } from "./functions.js";
 
-times3(() => state[rand()][rand()]);
 app.addEventListener("click", (e) => {
   const x = parseInt(e.target.getAttribute("data-x"));
   const y = parseInt(e.target.getAttribute("data-y"));
