@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  color: #666;
+  color: #444;
 }
 .app {
   max-width: 16rem;
@@ -15,7 +15,7 @@ body {
   border: 1px solid #ebebeb;
   width: 3rem;
   height: 3rem;
-  font-size: 3rem;
+  font-size: 2rem;
   line-height: 3.5rem;
   text-align: center;
 }
@@ -24,14 +24,16 @@ body {
   cursor: pointer;
 }
 .next {
-  margin-left: 5rem;
   margin-top: 1em;
-  position: relative;
+  justify-content: flex-start;
 }
 .next :last-child {
-  background: yellow;
+  position: relative;
+  background: lightyellow;
+  transition: all 0.2s ease;
+  opacity: 1;
 }
-.next:after {
+.next :last-child:after {
   content: "Next";
   text-transform: uppercase;
   font-weight: bold;
@@ -39,4 +41,9 @@ body {
   top: -0.25rem;
   right: -0.75rem;
   font-size: 0.6rem;
+}
+
+[data-hover-next]:after {
+  content: attr(data-hover-next);
+  opacity: 0.25;
 }
