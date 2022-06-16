@@ -1,6 +1,6 @@
 {
   "name": "city-blocks",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "app.js",
   "files": [
@@ -11,7 +11,7 @@
     "bin"
   ],
   "bin": {
-    "city-blocks": "npm start"
+    "city-blocks": "bin/city-blocks"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
