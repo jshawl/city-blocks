@@ -1,13 +1,14 @@
 {
   "name": "city-blocks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "app.js",
   "files": [
     "app.js",
     "functions.js",
     "index.html",
-    "styles.css"
+    "styles.css",
+    "bin"
   ],
   "bin": {
     "city-blocks": "npm start"
